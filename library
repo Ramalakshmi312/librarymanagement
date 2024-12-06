@@ -1,0 +1,139 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// Book class to store book details
+class Book {
+    private int id;
+    private String title;
+    private String author;
+
+    public Book(int id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    @Override
+    public String toString() {
+        return "Book ID: " + id + ", Title: " + title + ", Author: " + author;
+    }
+}
+
+// Library class to manage books
+class Library {
+    private ArrayList<Book> books;
+
+    public Library() {
+        books = new ArrayList<>();
+    }
+
+    // Add a new book
+    public void addBook(Book book) {
+        books.add(book);
+        System.out.println("Book added successfully!");
+    }
+
+    // Display all books
+    public void displayBooks() {
+        if (books.isEmpty()) {
+            System.out.println("No books available in the library.");
+        } else {
+            System.out.println("Books in the Library:");
+            for (Book book : books) {
+                System.out.println(book);
+            }
+        }
+    }
+
+    // Search book by ID
+    public void searchBookById(int id) {
+        for (Book book : books) {
+            if (book.getId() == id) {
+                System.out.println("Book Found: " + book);
+                return;
+            }
+        }
+        System.out.println("Book with ID " + id + " not found.");
+    }
+
+    // Search book by title
+    public void searchBookByTitle(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                System.out.println("Book Found: " + book);
+                return;
+            }
+        }
+        System.out.println("Book with title \"" + title + "\" not found.");
+    }
+}
+
+// Main class
+class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Library library = new Library();
+
+        while (true) {
+            System.out.println("\n=== Library Management System ===");
+            System.out.println("1. Add Book");
+            System.out.println("2. View All Books");
+            System.out.println("3. Search Book by ID");
+            System.out.println("4. Search Book by Title");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Book ID: ");
+                    int id = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
+                    System.out.print("Enter Book Title: ");
+                    String title = scanner.nextLine();
+                    System.out.print("Enter Book Author: ");
+                    String author = scanner.nextLine();
+                    Book book = new Book(id, title, author);
+                    library.addBook(book);
+                    break;
+
+                case 2:
+                    library.displayBooks();
+                    break;
+
+                case 3:
+                    System.out.print("Enter Book ID to search: ");
+                    int searchId = scanner.nextInt();
+                    library.searchBookById(searchId);
+                    break;
+
+                case 4:
+                    System.out.print("Enter Book Title to search: ");
+                    String searchTitle = scanner.nextLine();
+                    library.searchBookByTitle(searchTitle);
+                    break;
+
+                case 5:
+                    System.out.println("Exiting the system. Goodbye!");
+                    scanner.close();
+                    System.exit(0);
+
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+            }
+        }
+    }
+}
